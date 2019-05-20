@@ -16,7 +16,15 @@ class Follower
   end
 
   def join_cult(cult)
+    if cult.minimum_age.class == Integer
+      if self.age >= cult.minimum_age
+        BloodOath.new(cult, self)
+      else
+        "I am sorry but you are too young to join this religious movement at this time."
+      end
+    else
     BloodOath.new(cult, self)
+    end
   end
 
   def self.all

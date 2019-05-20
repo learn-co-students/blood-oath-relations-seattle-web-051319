@@ -1,6 +1,7 @@
 class Cult
 
   attr_reader :name, :location, :founding_year, :slogan
+  attr_accessor :minimum_age
   @@cults = []
 
   def initialize(name, location, founding_year, slogan)
@@ -12,7 +13,15 @@ class Cult
   end
 
   def recruit_follower(follower)
-    BloodOath.new(self, follower)
+    if self.minimum_age.class == Integer
+      if follower.age >= self.minimum_age
+        BloodOath.new(self, follower)
+      else
+        "I am sorry but the follower you are trying to recruit is too young to join this religious movement at this time."
+      end
+    else
+      BloodOath.new(self, follower)
+    end
   end
 
   def cult_population
