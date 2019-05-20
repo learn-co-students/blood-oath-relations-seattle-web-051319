@@ -20,6 +20,11 @@ class Cult
     total.count
   end
 
+  def followers
+    oaths = BloodOath.all.select{|oath|oath.cult.name == self.name}
+    oaths.map {|oath|oath.follower}
+  end
+
   def self.all
     @@cults
   end
@@ -33,7 +38,7 @@ class Cult
   end
 
   def self.find_by_founding_year(year)
-    self.all
+    self.all.select{|cult|cult.founding_year == year}
   end
 
 end

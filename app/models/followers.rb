@@ -27,4 +27,20 @@ class Follower
     self.all.select{|follower|follower.age >= age}
   end
 
+  def fellow_cult_members
+    members = []
+    self.cults.each do |cult|
+      cult.followers.each do |follower|
+        if follower == self
+        else
+          if members.include?(follower)
+          else
+          members << follower
+          end
+        end
+      end
+    end
+    members
+  end
+
 end
