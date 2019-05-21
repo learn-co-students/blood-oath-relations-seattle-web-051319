@@ -11,7 +11,7 @@ class Follower
   end
 
   def cults
-    oaths = BloodOath.all.select{|oath|oath.follower.name == self.name}
+    oaths = BloodOath.all.select{|oath|oath.follower == self}
     oaths.map{|oath|oath.cult}
   end
 
@@ -49,6 +49,31 @@ class Follower
       end
     end
     members
+  end
+
+  def my_cults_slogans
+    cults.each do |cult|
+      puts cult.slogan
+    end
+  end
+
+  def self.cult_count
+    cult_count = Hash.new(0)
+    self.all.each do |follower|
+      cult_count[follower] = follower.cults.count
+    end
+      sorted = cult_count.to_a.sort_by {|follower, count| !count}
+      sorted.map do |follower, count|
+        follower
+      end
+  end
+
+  def self.most_active
+    self.cult_count[0]
+  end
+
+  def self.top_ten
+    self.cult_count[0..9]
   end
 
 end

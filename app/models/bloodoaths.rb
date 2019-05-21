@@ -18,4 +18,8 @@ class BloodOath
     @@bloodoaths
   end
 
+  def self.first_oath
+    @@bloodoaths[0]
+  end
+
 end

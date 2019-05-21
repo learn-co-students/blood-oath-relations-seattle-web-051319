@@ -25,12 +25,12 @@ class Cult
   end
 
   def cult_population
-    total = BloodOath.all.select{|oath|oath.cult.name == self.name}
+    total = BloodOath.all.select{|oath|oath.cult == self}
     total.count
   end
 
   def followers
-    oaths = BloodOath.all.select{|oath|oath.cult.name == self.name}
+    oaths = BloodOath.all.select{|oath|oath.cult == self}
     oaths.map {|oath|oath.follower}
   end
 
@@ -48,6 +48,45 @@ class Cult
 
   def self.find_by_founding_year(year)
     self.all.select{|cult|cult.founding_year == year}
+  end
+
+  def average_age
+    total_age = 0.0
+    followers.each do |follower|
+      total_age += follower.age
+    end
+    total_age / followers.count
+  end
+
+  def my_followers_mottos
+    followers.each do |follower|
+      puts follower.life_motto
+    end
+  end
+
+  def self.least_popular
+    min_followers = 10000000000
+    self.all.each do |cult|
+      if cult.cult_population < min_followers
+        min_followers = cult.cult_population
+      end
+    end
+    self.all.select do |cult|
+      cult.cult_population == min_followers
+    end
+  end
+
+  def self.most_common_location
+    all_locations = self.all.map do |cult|
+      cult.location
+    end
+    location_count = Hash.new(0)
+    all_locations.each do|location|
+      location_count[location] += 1
+    end
+    location_count.max_by do |k, v|
+    k
+    end[0]
   end
 
 end
